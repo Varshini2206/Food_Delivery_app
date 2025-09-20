@@ -110,7 +110,7 @@ Order confirmation interface showing successful order placement with order track
 Personal profile interface allowing users to manage account information, saved addresses, order history, and preferences. This provides a personalized experience and convenient account management capabilities.
 
 
-Why FoodieExpress?
+Why FoodieExpress?.
 
 FoodieExpress represents a complete understanding of modern web application development, showcasing expertise in full-stack development, user experience design, and enterprise-level architecture. The application demonstrates proficiency in industry-standard technologies while delivering a polished, production-ready solution.
 

@@ -1,0 +1,138 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: foodie-express-backend
+  
+  # Database Configuration
+  profiles:
+    active: dev
+  
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+    open-in-view: false
+    defer-datasource-initialization: true
+
+  # SQL initialization
+  sql:
+    init:
+      mode: always
+      continue-on-error: false
+
+  # H2 Database (for development and demo)
+  datasource:
+    url: jdbc:h2:mem:foodie_express
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  # File Upload Configuration
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  # Mail Configuration (for notifications)
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:demo@example.com}
+    password: ${MAIL_PASSWORD:demo_password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+# JWT Configuration
+app:
+  jwt:
+    secret: ${JWT_SECRET:mySecretKey1234567890123456789012345678901234567890}
+    expiration: 86400000 # 24 hours in milliseconds
+    refresh-expiration: 604800000 # 7 days in milliseconds
+
+# CORS Configuration
+cors:
+  allowed-origins: 
+    - "http://localhost:3000"
+    - "http://localhost:3001" 
+    - "http://localhost:3002"
+  allowed-methods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - OPTIONS
+  allowed-headers: "*"
+  allow-credentials: true
+
+# Logging Configuration
+logging:
+  level:
+    com.fooddelivery: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+# Management endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# Application specific configurations
+app-config:
+  upload-dir: uploads/
+  max-restaurants-per-user: 3
+  max-delivery-radius-km: 50
+  default-delivery-fee: 30.0
+  
+---
+# Production Profile
+spring:
+  profiles: prod
+  
+  # MySQL Configuration for production
+  datasource:
+    url: jdbc:mysql://localhost:3306/foodie_express?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USERNAME:foodie_user}
+    password: ${DB_PASSWORD:foodie_password}
+  
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+  h2:
+    console:
+      enabled: false
+
+logging:
+  level:
+    com.fooddelivery: INFO
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN
